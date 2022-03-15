@@ -5,6 +5,8 @@ import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
+
+import anim.Shake;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -46,20 +48,7 @@ public class HelloController {
         });
 
         LoginSignUpB.setOnAction(event -> {
-            LoginSignUpB.getScene().getWindow().hide();
-
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("singUp.fxml"));
-            try {
-                loader.load();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            Parent root = loader.getRoot();
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.showAndWait();
+            openNewScene("singUp.fxml");
         });
     }
 
@@ -79,8 +68,32 @@ public class HelloController {
             e.printStackTrace();
         }
 
-        if(counter >= 1){
-            System.out.println("Вошел");
+        if(counter >= 1) {
+            openNewScene("app.fxml");
         }
+        else{
+            Shake userloginanim = new Shake(login);
+            Shake userpassnanim = new Shake(pass);
+            userloginanim.PlayAnim();
+            userpassnanim.PlayAnim();
+
+        }
+    }
+
+    private void openNewScene(String window){
+        LoginSignUpB.getScene().getWindow().hide();
+
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource(window));
+        try {
+            loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Parent root = loader.getRoot();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.showAndWait();
     }
 }
